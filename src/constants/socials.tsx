@@ -2,22 +2,29 @@ import {
   IconBrandLinkedin,
   IconBrandTwitter,
   IconBrandYoutube,
+  IconBrandGithub,
+  IconBrandDiscord,
 } from "@tabler/icons-react";
 
 export const socials = [
   {
-    href: "https://twitter.com/mannupaaji",
-    label: "Twitter",
-    icon: IconBrandTwitter,
+    href: "https://github.com/alixlm19",
+    label: "GitHub",
+    icon: IconBrandGithub,
   },
   {
-    href: "https://linkedin.com/in/manuarora28",
+    href: "https://linkedin.com/in/alixleon",
     label: "LinkedIn",
     icon: IconBrandLinkedin,
   },
-  {
-    href: "https://youtube.com/maninthere",
-    label: "YouTube",
-    icon: IconBrandYoutube,
-  },
+  // {
+  //   href: "https://youtube.com/maninthere",
+  //   label: "YouTube",
+  //   icon: IconBrandYoutube,
+  // },
+  // {
+  //   href: "https://discord.com/maninthere",
+  //   label: "YouTube",
+  //   icon: IconBrandYoutube,
+  // }
 ];
