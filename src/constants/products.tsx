@@ -1,3 +1,5 @@
+import CodeBlock from "@/components/CodeBlock";
+
 export const products = [
     {
         href: "https://aceternity.com",
@@ -34,16 +36,16 @@ export const products = [
     },
     {
         href: "https://algochurn.com",
-        title: "Algochurn",
+        title: "English-Spanish Translation with Transformers",
         description:
-            "Practice for technical interviews with hands on coding challenges.",
-        thumbnail: "/images/sidefolio-algochurn.png",
+            "This project develops an English-Spanish translation model using transformer architectures. By training on a large corpus of parallel texts, the model achieves high accuracy and fluency. It involves data preprocessing, model training, and evaluation, showcasing the power of transformers in enhancing multilingual communication.",
+        thumbnail: "/images/transformer-decoding.gif",
         images: [
-            "/images/sidefolio-algochurn.png",
-            "/images/sidefolio-algochurn-2.png",
+            "/images/transformer.png",
+            "/images/transformer-decoding.gif",
         ],
-        stack: ["Nextjs", "Tailwindcss"],
-        slug: "algochurn",
+        stack: ["Python", "Tensorflow", "Machine Learning", "Transformers", "Autoencoders", "Embeddings"],
+        slug: "transformers",
         content: (
             <div>
                 <p>
@@ -53,7 +55,7 @@ export const products = [
                     cupidatat elit velit aute mollit nisi. Officia ad exercitation laboris
                     non cupidatat duis esse velit ut culpa et.{" "}
                 </p>
-                <p>
+                <code>
                     Exercitation pariatur enim occaecat adipisicing nostrud adipisicing
                     Lorem tempor ullamco exercitation quis et dolor sint. Adipisicing sunt
                     sit aute fugiat incididunt nostrud consequat proident fugiat id.
@@ -61,7 +63,8 @@ export const products = [
                     reprehenderit. Cillum Lorem veniam eu magna exercitation.
                     Reprehenderit adipisicing minim et officia enim et veniam Lorem
                     excepteur velit adipisicing et Lorem magna.
-                </p>{" "}
+                </code>{" "}
+                <CodeBlock code="console.log('a')" lang="javascript"/> 
             </div>
         ),
     },
@@ -78,7 +81,7 @@ export const products = [
             "/images/pca_2.png",
             "/images/pca_3.png",
         ],
-        stack: ["R", "Portoflio Theory", "Hypothesis Testing", "Risk Management"], 
+        stack: ["R", "Portoflio Theory", "Hypothesis Testing", "Risk Management"],
         slug: "statistical-insights-diversified-portfolio-analysis",
         content: (
             <div>
@@ -100,7 +103,7 @@ export const products = [
 
                 <p><strong>Future Directions:</strong> Future research endeavors could expand on this analysis by incorporating a broader range of assets or integrating machine learning algorithms for predictive modeling. Such advancements could further enhance portfolio management strategies, offering deeper insights and improved decision-making capabilities.</p>
 
-                <p><strong>Conclusion:</strong> In summary, the Statistical Methods In Finance final project offers a comprehensive exploration of portfolio dynamics and performance metrics, demonstrating the power of statistical rigor in illuminating financial trends and informing investment strategies. By leveraging these insights, investors can effectively manage risks and capitalize on opportunities in today's dynamic financial landscape.</p> 
+                <p><strong>Conclusion:</strong> In summary, the Statistical Methods In Finance final project offers a comprehensive exploration of portfolio dynamics and performance metrics, demonstrating the power of statistical rigor in illuminating financial trends and informing investment strategies. By leveraging these insights, investors can effectively manage risks and capitalize on opportunities in today's dynamic financial landscape.</p>
             </div>
         ),
     },
