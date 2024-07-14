@@ -1,35 +1,31 @@
 import CodeBlock from "@/components/CodeBlock";
+import Image from "next/image";
 
 export const products = [
     {
         href: "https://aceternity.com",
-        title: "Statistical Insights into Diversified Portfolio Analysis: Unveiling Financial Trends and Strategies",
+        title: "Image Classifier on Noisy Labels",
         description:
-            "A design and development studio that focuses on building quality apps.",
-        thumbnail: "/images/sidefolio-aceternity.png",
+            "Implementation of the Multi-Label Fashion Image Classification with Minimal Human Supervision paper from Inoue et al. on the CIFAR-10 dataset.",
+        thumbnail: "/images/image_classifier_on_noisy_labels.png",
         images: [
-            "/images/sidefolio-aceternity.png",
-            "/images/sidefolio-aceternity-2.png",
+            "/images/image_classifier_on_noisy_labels.png",
         ],
-        stack: ["Nextjs", "Tailwindcss"],
-        slug: "aceternity",
+        stack: ["Python", "TensorFlow", "Machine Learning", "CNN", "Classification", "Weak Labels"],
+        slug: "noisy-labels-image-classification",
         content: (
             <div>
                 <p>
-                    Sit eiusmod ex mollit sit quis ad deserunt. Sint aliqua aliqua ullamco
-                    dolore nulla amet tempor sunt est ipsum. Dolor laborum eiusmod
-                    cupidatat consectetur velit ipsum. Deserunt nisi in culpa laboris
-                    cupidatat elit velit aute mollit nisi. Officia ad exercitation laboris
-                    non cupidatat duis esse velit ut culpa et.{" "}
+                    We carry out model evaluation and selection for predictive analytics
+                    on an imbalanced image data.
                 </p>
                 <p>
-                    Exercitation pariatur enim occaecat adipisicing nostrud adipisicing
-                    Lorem tempor ullamco exercitation quis et dolor sint. Adipisicing sunt
-                    sit aute fugiat incididunt nostrud consequat proident fugiat id.
-                    Officia aliquip laborum labore eu culpa dolor reprehenderit eu ex enim
-                    reprehenderit. Cillum Lorem veniam eu magna exercitation.
-                    Reprehenderit adipisicing minim et officia enim et veniam Lorem
-                    excepteur velit adipisicing et Lorem magna.
+                    We will be dealing with a classification problem, where the training labels are not perfect.
+                    This is a common phenomenon in data science. Getting accurate ground true labels
+                    can be costly and time-consuming. Sometimes, it is even impossible.
+                    The weakly supervised learning is a subject that addresses the issue
+                    with imperfect labels. In particular, we are going to train
+                    a predictive model where label noises exist.
                 </p>{" "}
             </div>
         ),
@@ -48,23 +44,587 @@ export const products = [
         slug: "transformers",
         content: (
             <div>
-                <p>
-                    Sit eiusmod ex mollit sit quis ad deserunt. Sint aliqua aliqua ullamco
-                    dolore nulla amet tempor sunt est ipsum. Dolor laborum eiusmod
-                    cupidatat consectetur velit ipsum. Deserunt nisi in culpa laboris
-                    cupidatat elit velit aute mollit nisi. Officia ad exercitation laboris
-                    non cupidatat duis esse velit ut culpa et.{" "}
+                <h2>Sequence-to-sequence transformer to translate Spanish to English.</h2>
+                <h3>Project Walkthrough:</h3>
+                <ul>
+                    <li>Step 1. Data Preprocessing
+                        <ul>
+                            <li>Downloading</li>
+                            <li>Parsing</li>
+                            <li>Vectorizing text using the Keras <code>TextVectorization</code>
+                                layer.</li>
+                            <li>Formatting data for training</li>
+                        </ul></li>
+                    <li>Step 2. Implement a Transformer
+                        <ul>
+                            <li>A <code>PositionalEmbedding</code> layer </li>
+                            <li>A <code>TransformerEncoder</code> layer and a
+                                <code>TransformerDecoder</code> layer </li>
+                            <li>Sequence all layers together to build a <code>Transformer</code>
+                                model</li>
+                        </ul></li>
+                    <li>Step 3. Train the model</li>
+                    <li>Step 4. Inference: Use the trained model to translate new sequences
+                    </li>
+                </ul>
+                <h2>Setup</h2>
+
+                <CodeBlock
+                    code={
+                        `import pathlib
+import random
+import string
+import re
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.layers import TextVectorization`}
+                    lang="python" />
+                <h2>Step 1. Data Preprocessing</h2>
+                <h3>Downloading</h3>
+                <p>First, download an English-to-Spanish translation dataset from <a href="">Anki.</a></p>
+                <CodeBlock
+                    code={
+                        `text_file = keras.utils.get_file(
+    fname="spa-eng.zip",
+    origin="http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip",
+    extract=True,
+)
+text_file = pathlib.Path(text_file).parent / "spa-eng" / "spa.txt"`}
+                    lang="python" />
+                <h3>Parsing</h3>
+                <p>Each line contains an English sentence and its corresponding Spanish
+
+                    sentence. The English sentence is the <em>source sequence</em> and
+                    Spanish one is the <em>target sequence</em>. We prepend the token
+                    <code>[start]</code> and we append the token <code>[end]</code> to
+                    the Spanish sentence.
                 </p>
-                <code>
-                    Exercitation pariatur enim occaecat adipisicing nostrud adipisicing
-                    Lorem tempor ullamco exercitation quis et dolor sint. Adipisicing sunt
-                    sit aute fugiat incididunt nostrud consequat proident fugiat id.
-                    Officia aliquip laborum labore eu culpa dolor reprehenderit eu ex enim
-                    reprehenderit. Cillum Lorem veniam eu magna exercitation.
-                    Reprehenderit adipisicing minim et officia enim et veniam Lorem
-                    excepteur velit adipisicing et Lorem magna.
-                </code>{" "}
-                <CodeBlock code="console.log('a')" lang="javascript"/> 
+                <CodeBlock
+                    code={
+                        `with open(text_file) as f:
+    lines = f.read().split("\\n")[:-1]
+text_pairs = []
+for line in lines:
+    eng, spa = line.split("\\t")
+    spa = "[start] " + spa + " [end]"
+    text_pairs.append((eng, spa))`}
+                    lang="python" />
+                <p>Here's what our sentence pairs look like:</p>
+                <CodeBlock
+                    code={
+                        `for _ in range(5):
+    print(random.choice(text_pairs))`}
+                    lang="python" />
+                <pre><code>(&#39;I think Tom is working now.&#39;, &#39;[start] Creo que ahora Tomás trabaja. [end]&#39;)<br />
+                    (&quot;I&#39;m very interested in classical literature.&quot;, &#39;[start] Me interesa mucho la literatura clásica. [end]&#39;)<br />
+                    (&#39;I appreciate you.&#39;, &#39;[start] Te tengo cariño. [end]&#39;)<br />
+                    (&#39;Do you want to watch this program?&#39;, &#39;[start] ¿Quieres ver este programa? [end]&#39;)<br />
+                    (&#39;We just have to stick together.&#39;, &#39;[start] Sólo tenemos que permanecer juntos. [end]&#39;)<br />
+                </code></pre>
+                <p>Now, let's split the sentence pairs into a training set, a validation set, and a test set.</p>
+                <CodeBlock
+                    code={
+                        `random.shuffle(text_pairs)
+
+num_train_samples = 1000
+num_val_samples = 1000
+num_test_samples = 1000
+
+num_val_samples = int(0.15 * len(text_pairs))
+num_train_samples = len(text_pairs) - 2 * num_val_samples
+num_test_samples = len(text_pairs) - num_val_samples - num_train_samples
+
+train_pairs = text_pairs[:num_train_samples]
+val_pairs = text_pairs[num_train_samples : num_train_samples + num_val_samples]
+test_pairs = text_pairs[num_train_samples + num_val_samples :]
+
+print(f"{len(text_pairs)} total pairs")
+print(f"{len(train_pairs)} training pairs")
+print(f"{len(val_pairs)} validation pairs")
+print(f"{len(test_pairs)} test pairs")`}
+                    lang="python" />
+                <pre><code>
+                    118964 total pairs<br />
+                    83276 training pairs<br />
+                    17844 validation pairs<br />
+                    17844 test pairs<br />
+                </code></pre>
+                <h3>Vectorizing the text data</h3>
+                <p>A <code>TextVectorization</code> layer vectorizes the text data into
+                    integer sequences where each integer represents the index of a word in a
+                    vocabulary.</p>
+                <p>The English layer will use the default string standardization (strip
+                    punctuation characters) and splitting scheme (split on whitespace),
+                    while the Spanish layer will use a custom standardization, where we add
+                    the character <code>¿</code> to the set of punctuation characters to
+                    be stripped.
+                </p>
+                <CodeBlock
+                    code={
+                        `strip_chars = string.punctuation + "¿"
+strip_chars = strip_chars.replace("[", "")
+strip_chars = strip_chars.replace("]", "")
+
+vocab_size = 15000
+sequence_length = 20
+batch_size = 64
+
+def custom_standardization(input_string):
+    lowercase = tf.strings.lower(input_string)
+    return tf.strings.regex_replace(lowercase, "[%s]" % re.escape(strip_chars), "")
+
+eng_vectorization = TextVectorization(
+    max_tokens=vocab_size, output_mode="int", output_sequence_length=sequence_length,
+)
+spa_vectorization = TextVectorization(
+    max_tokens=vocab_size,
+    output_mode="int",
+    output_sequence_length=sequence_length + 1,
+    standardize=custom_standardization,
+)
+train_eng_texts = [pair[0] for pair in train_pairs]
+
+train_spa_texts = [pair[1] for pair in train_pairs]
+eng_vectorization.adapt(train_eng_texts)
+spa_vectorization.adapt(train_spa_texts)`}
+                    lang="python" />
+                <h2>Formating</h2>
+                <p>Recall that at each training step, the model will seek to predict
+                    target words N+1 (and beyond) using the source sentence and the target
+
+                    words 0 to N. As such, the training dataset will yield a tuple
+                    <code>(inputs, targets)</code>, where:</p>
+                <ul>
+                    <li><code>inputs</code> is a dictionary with the keys
+
+                        <code>encoder_inputs</code> and <code>decoder_inputs</code>.
+                        <code>decoder_inputs</code> is the vectorized source sentence and
+                        <code>encoder_inputs</code> is the target sentence "so far", that is to
+                        say, the words 0 to N used to predict word N+1 (and beyond) in the
+                        target sentence.</li>
+                    <li><code>target</code> is the target sentence offset by one step: it
+                        provides the next words in the target sentence -- what the model will
+                        try to predict.</li>
+                </ul>
+                <CodeBlock
+                    code={
+                        `def format_dataset(eng, spa):
+    eng = eng_vectorization(eng)
+    spa = spa_vectorization(spa)
+    return ({"encoder_inputs": eng, "decoder_inputs": spa[:, :-1],}, spa[:, 1:])
+
+
+def make_dataset(pairs):
+    eng_texts, spa_texts = zip(*pairs)
+    eng_texts = list(eng_texts)
+    spa_texts = list(spa_texts)
+    dataset = tf.data.Dataset.from_tensor_slices((eng_texts, spa_texts))
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.map(format_dataset)
+    return dataset.shuffle(2048).prefetch(16).cache()
+
+
+train_ds = make_dataset(train_pairs)
+val_ds = make_dataset(val_pairs)`}
+                    lang="python" />
+                <p>Let's take a quick look at the sequence shapes (we have batches of 64 pairs, and all sequences are 20 steps long):</p>
+                <CodeBlock
+                    code={
+                        `for inputs, targets in train_ds.take(1):
+    print(f'inputs["encoder_inputs"].shape: {inputs["encoder_inputs"].shape}')
+    print(f'inputs["decoder_inputs"].shape: {inputs["decoder_inputs"].shape}')
+
+    print(f"targets.shape: {targets.shape}")
+                        `}
+                    lang="python"
+                />
+                <pre><code>inputs[&quot;encoder_inputs&quot;].shape: (64, 20)<br />
+                    inputs[&quot;decoder_inputs&quot;].shape: (64, 20)<br />
+                    targets.shape: (64, 20)<br />
+                </code></pre>
+                <h2>Step 2. Implement a Transformer</h2>
+                <h3>Transformer Overview</h3>
+                <ul>
+                    <li><p>The input will first be passed to an embedding layer and a
+                        position embedding layer (we merge two layers into the
+                        <code>PositionalEmbedding Layer</code>), to obtain <a
+                            href="https://developers.google.com/machine-learning/glossary#embeddings">embeddings</a></p></li>
+                    <li><p>Next, the input embedding of the source sequence will be passed
+                        to the <code>TransformerEncoder</code>, which will produce a new
+                        representation of it.</p></li>
+                    <li><p>This new representation will then be passed to the
+                        <code>TransformerDecoder</code>, together with the target sequence so
+
+                        far (target words 0 to N). The <code>TransformerDecoder</code> will then
+                        seek to predict the next words in the target sequence (N+1 and
+                        beyond).</p></li>
+                </ul>
+                <p><Image src="/images/transformer.png" width={455} height={655} /></p>
+                <p>Figure 2: The Transformer architecture as discussed in lecture, from <a href="https://arxiv.org/abs/1706.03762">"Attention is all you need"</a> (Vaswani et al., 2017).</p>
+                <h3>Technical details</h3>
+                <ul>
+                    <li>The Transformer's encoder and decoder consist of N layers
+                        (<code>num_layers</code>) each, containing <a
+                            href="https://developers.google.com/machine-learning/glossary#multi-head-self-attention">multi-head
+                            attention</a> (<code>tf.keras.layers.MultiHeadAttention</code>) layers
+                        with M heads (<code>num_heads</code>), and point-wise feed-forward
+                        networks.
+                        <ul>
+                            <li>The encoder leverages the self-attention mechanism.</li>
+                            <li>The decoder (with N decoder layers) attends to the encoder's output
+                                (with cross-attention to utilize the information from the encoder) and
+                                its own input (with masked self-attention) to predict the next word. The
+                                masked self-attention is causal—it is there to make sure the model can
+                                only rely on the preceding tokens in the decoding stage.</li>
+                        </ul></li>
+                    <li>Multi-head attention: Each multi-head attention block gets three
+                        inputs; Q (query), K (key), V (value). Instead of one single attention
+                        head, Q, K, and V are split into multiple heads because it allows the
+                        model to <a href="https://arxiv.org/abs/1706.03762">"jointly attend to
+                            information from different representation subspaces at different
+                            positions"</a>. You can read more about <a
+                                href="https://storrs.io/attention/">single-head-attention</a> and <a
+                                    href="https://storrs.io/multihead-attention/">multi-head-attention</a>.
+                        The equation used to calculate the self-attention weights is as follows:
+                        <span>{`$$\Large{Attention(Q, K, V) =
+                            softmax_k\left(\frac{QK ^ T}{\sqrt{d_k}}\right) V} $$`}</span></li>
+                </ul>
+                <p><Image src="/images/transformer_multi-head-attention.png" width={438} height={447}/></p>
+                <p>Figure 3: Multi-head attention from Google Research's <a href="https://arxiv.org/abs/1706.03762">"Attention is all you need"</a>(Vaswani et al., 2017).</p>
+                <h3>Component 1: Position Encoding Layer</h3>
+                <p>After text vectorization, both the input sentences (English) and
+                    target sentences (Spanish) have to be converted to embedding vectors
+                    using a <code>tf.keras.layers.Embedding</code> layer. This purpose of
+                    the first embedding layer is to map word to a point in embedding space
+                    where similar words are closer to each other.</p>
+                <p>Next, a Transformer adds a <code>Positional Encoding</code> to the
+                    embedding vectors. In this exercise, we would use a set of sines and
+                    cosines at different frequencies (across the sequence). By definition,
+                    nearby elements will have similar position encodings.</p>
+                <p>We would use the following formula for calculating the positional
+                    encoding:</p>
+                <p><span>{`$$\Large{PE_{(pos, 2i)} = \sin(pos /
+                    10000^{2i / \text{depth}})} $$</span> <span
+                        class="math display">$$\Large{PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i /
+                        \text{depth}})} $$`}</span></p>
+                <p>where <code>pos</code> takes value from 0 to <code>length - 1</code>
+                    and <code>i</code> takes value from <code>0</code> to
+                    <code>depth/2</code>.</p>
+                <CodeBlock
+                    code={
+                        `def positional_encoding(length, depth):
+    depth = depth/2
+
+    positions = np.arange(length)[:, np.newaxis]     # (seq, 1)
+    depths = np.arange(depth)[np.newaxis, :]/depth   # (1, depth)
+
+    # compute angle_rads (angle in radians), the shape should be (pos, depth)
+    angle_rads = positions / np.power(10_000, depths)
+
+    pos_encoding = np.concatenate(
+        [np.sin(angle_rads), np.cos(angle_rads)],
+        axis=-1)
+
+    return tf.cast(pos_encoding, dtype=tf.float32)`}
+                    lang="python" />
+                <p>You can verify and view your implementation of position_encoding below.</p>
+                <CodeBlock
+                    code={
+                        `import matplotlib.pyplot as plt
+
+pos_encoding = positional_encoding(length=2048, depth=512)
+
+assert pos_encoding.shape == (2048, 512)
+
+# Plot the dimensions.
+plt.pcolormesh(pos_encoding.numpy().T, cmap='RdBu')
+plt.ylabel('Depth')
+plt.xlabel('Position')
+plt.colorbar()
+plt.show()`}
+                    lang="python" />
+
+                <p><Image src="/images/transformer-decoding_depth_vs_position.png" width={387} height={266} /></p>
+                <p>Now, let's sequence the embedding and positional_encoding together to get a Positional Embedding Layer.</p>
+                <CodeBlock
+                    code={
+                        `class PositionalEmbedding(layers.Layer):
+    def __init__(self, sequence_length, vocab_size, embed_dim):
+        super().__init__()
+        self.sequence_length = sequence_length
+        self.embed_dim = embed_dim
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embed_dim, mask_zero=True)
+
+        self.pos_encoding = positional_encoding(length=sequence_length, depth=embed_dim)
+
+    def compute_mask(self, *args, **kwargs):
+        return self.embedding.compute_mask(*args, **kwargs)
+
+    def call(self, x):
+        length = tf.shape(x)[1]
+        x = self.embedding(x)
+        x *= tf.math.sqrt(tf.cast(self.embed_dim, tf.float32))
+
+        x = x + self.pos_encoding[tf.newaxis, :length, :]
+        return x`
+                    }
+                    lang="python" />
+
+                <h3>Component 2: Encoder Layer</h3>
+                <CodeBlock
+                    code={
+                        `class TransformerEncoder(layers.Layer):
+    def __init__(self, embed_dim, dense_dim, num_heads, **kwargs):
+        super(TransformerEncoder, self).__init__(**kwargs)
+        self.embed_dim = embed_dim
+        self.dense_dim = dense_dim
+        self.num_heads = num_heads
+        self.attention = layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim
+        )
+        self.feed_forward = keras.Sequential(
+            [layers.Dense(dense_dim, activation="relu"), layers.Dense(embed_dim),]
+        )
+        self.layernorm_1 = layers.LayerNormalization()
+        self.layernorm_2 = layers.LayerNormalization()
+        self.supports_masking = True
+
+    def call(self, inputs, mask=None):
+        if mask is not None:
+            padding_mask = tf.cast(mask[:, tf.newaxis, tf.newaxis, :], dtype="int32")
+        else:
+            padding_mask = None
+
+        attention_output = self.attention(query = inputs, value = inputs, key = inputs, attention_mask = padding_mask)
+        proj_input = self.layernorm_1(inputs + attention_output)
+        proj_output = self.feed_forward(proj_input)
+        encoder_output = self.layernorm_2(proj_input + proj_output)
+
+        return encoder_output
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "embed_dim": self.embed_dim,
+            "dense_dim": self.dense_dim,
+            "num_heads": self.num_heads,
+        })
+        return config
+
+    class TransformerDecoder(layers.Layer):
+    def __init__(self, embed_dim, latent_dim, num_heads, **kwargs):
+        super(TransformerDecoder, self).__init__(**kwargs)
+        self.embed_dim = embed_dim
+        self.latent_dim = latent_dim
+        self.num_heads = num_heads
+        self.attention_1 = layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim
+        )
+        self.attention_2 = layers.MultiHeadAttention(
+            num_heads=num_heads, key_dim=embed_dim
+        )
+        self.feed_forward = keras.Sequential(
+            [layers.Dense(latent_dim, activation="relu"), layers.Dense(embed_dim),]
+        )
+        self.layernorm_1 = layers.LayerNormalization()
+        self.layernorm_2 = layers.LayerNormalization()
+        self.layernorm_3 = layers.LayerNormalization()
+        self.supports_masking = True
+
+    def call(self, inputs, encoder_outputs, mask=None):
+        causal_mask = self.get_causal_attention_mask(inputs)
+        if mask is not None:
+            padding_mask = tf.cast(mask[:, tf.newaxis, :], dtype="int32")
+            padding_mask = tf.minimum(padding_mask, causal_mask)
+
+        attention_output_1 = self.attention_1(query = inputs, value = inputs, key = inputs, attention_mask = causal_mask)
+        out_1 = self.layernorm_1(inputs + attention_output_1)
+        attention_output_2 = self.attention_2(query = out_1, value = encoder_outputs, key = encoder_outputs, attention_mask = padding_mask)
+        out_2 = self.layernorm_2(out_1 + attention_output_2)
+        proj_output = self.feed_forward(out_2)
+        decoder_output = self.layernorm_3(out_2 + proj_output)
+
+        return decoder_output
+
+    def get_causal_attention_mask(self, inputs):
+        input_shape = tf.shape(inputs)
+        batch_size, sequence_length = input_shape[0], input_shape[1]
+        i = tf.range(sequence_length)[:, tf.newaxis]
+        j = tf.range(sequence_length)
+        mask = tf.cast(i >= j, dtype="int32")
+        mask = tf.reshape(mask, (1, input_shape[1], input_shape[1]))
+        mult = tf.concat(
+            [tf.expand_dims(batch_size, -1), tf.constant([1, 1], dtype=tf.int32)],
+            axis=0,
+        )
+        return tf.tile(mask, mult)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "embed_dim": self.embed_dim,
+            "latent_dim": self.latent_dim,
+            "num_heads": self.num_heads,
+        })
+        return config`}
+                    lang="python" />
+                <h3>Component 3: Assemble the end-to-end model</h3>
+                <p>Define the hyper-parameters</p>
+                <CodeBlock
+                    code={
+                        `embed_dim = 64 #256
+latent_dim = 512 #2048
+num_heads = 4 #`}
+                    lang="python" />
+                <p>Assemble the layers</p>
+                <CodeBlock
+                    code={
+                        `encoder_inputs = keras.Input(shape=(None,), dtype="int64", name="encoder_inputs")
+
+x = PositionalEmbedding(sequence_length, vocab_size, embed_dim)(encoder_inputs)
+
+encoder_outputs = TransformerEncoder(embed_dim, latent_dim, num_heads)(x)
+encoder = keras.Model(encoder_inputs, encoder_outputs)
+
+decoder_inputs = keras.Input(shape=(None,), dtype="int64", name="decoder_inputs")
+encoded_seq_inputs = keras.Input(shape=(None, embed_dim), name="decoder_state_inputs")
+
+x = PositionalEmbedding(sequence_length, vocab_size, embed_dim)(decoder_inputs)
+x = TransformerDecoder(embed_dim, latent_dim, num_heads)(x, encoded_seq_inputs)
+x = tf.keras.layers.Dropout(0.5)(x)
+decoder_outputs = tf.keras.layers.Dense(units = vocab_size, activation = "softmax")(x)
+
+# Note: the goal of this layer is to expand the dimension to match the vocabulary size in the target language, so choosing the layer output size accordingly
+# Note: the output should be probabilities, so choose the activation function accordingly.
+decoder = keras.Model([decoder_inputs, encoded_seq_inputs], decoder_outputs)
+
+decoder_outputs = decoder([decoder_inputs, encoder_outputs])
+
+transformer = keras.Model(
+    [encoder_inputs, decoder_inputs], decoder_outputs, name="transformer"
+)`}
+                    lang="python" />
+                <h2>Step 3. Training our model</h2>
+                <p>We'll use accuracy as a quick way to monitor training progress on the validation data. Note that machine translation typically uses BLEU scores as well as other metrics, rather than accuracy.
+
+                    Here we only train for a few epochs (to confirm everything), but to get the model to actually converge you should train for at least 30 epochs.</p>
+                <pre><code>
+                    Model: "transformer"<br />
+                    __________________________________________________________________________________________________<br />
+                    Layer (type)                   Output Shape         Param #     Connected to<br />
+==================================================================================================<br/>
+ encoder_inputs (InputLayer)    [(None, None)]       0           []<br/>
+<br/>
+ positional_embedding_4 (Positi  (None, None, 64)    960000      ['encoder_inputs[0][0]']<br/>
+ onalEmbedding)<br/>
+<br/>
+ decoder_inputs (InputLayer)    [(None, None)]       0           []<br/>
+<br/>
+<br/>
+ transformer_encoder_2 (Transfo  (None, None, 64)    132736      ['positional_embedding_4[0][0]']<br/>
+ rmerEncoder)<br/>
+<br/>
+<br/>
+ model_5 (Functional)           (None, None, 15000)  2134232     ['decoder_inputs[0][0]',<br/>
+                                                                  'transformer_encoder_2[0][0]<br/>']
+<br/>
+==================================================================================================<br/>
+Total params: 3,226,968<br/>
+Trainable params: 3,226,968<br/>
+Non-trainable params: 0<br/>
+__________________________________________________________________________________________________<br/>
+Epoch 1/30<br/>
+1302/1302 [==============================] - 53s 38ms/step - loss: 1.8328 - accuracy: 0.3688 - val_loss: 1.4703 - val_accuracy: 0.4539<br/>
+Epoch 2/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.5145 - accuracy: 0.4660 - val_loss: 1.3097 - val_accuracy: 0.5182<br/>
+<br/>
+Epoch 3/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.3744 - accuracy: 0.5148 - val_loss: 1.2292 - val_accuracy: 0.5565<br/>
+Epoch 4/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.2884 - accuracy: 0.5498 - val_loss: 1.1951 - val_accuracy: 0.5806<br/>
+Epoch 5/30<br/>
+<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.2442 - accuracy: 0.5725 - val_loss: 1.1687 - val_accuracy: 0.5936<br/>
+Epoch 6/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.2200 - accuracy: 0.5878 - val_loss: 1.1617 - val_accuracy: 0.5999<br/>
+Epoch 7/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.2036 - accuracy: 0.5994 - val_loss: 1.1558 - val_accuracy: 0.6052<br/>
+Epoch 8/30<br/>
+1302/1302 [==============================] - 49s 37ms/step - loss: 1.1902 - accuracy: 0.6091 - val_loss: 1.1535 - val_accuracy: 0.6095<br/>
+Epoch 9/30<br/>
+1302/1302 [==============================] - 49s 38ms/step - loss: 1.1810 - accuracy: 0.6168 - val_loss: 1.1555 - val_accuracy: 0.6116<br/>
+Epoch 10/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1715 - accuracy: 0.6228 - val_loss: 1.1543 - val_accuracy: 0.6142<br/>
+Epoch 11/30<br/>
+<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1624 - accuracy: 0.6288 - val_loss: 1.1536 - val_accuracy: 0.6150<br/>
+Epoch 12/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1530 - accuracy: 0.6336 - val_loss: 1.1583 - val_accuracy: 0.6144<br/>
+Epoch 13/30<br/>
+1302/1302 [==============================] - 49s 38ms/step - loss: 1.1453 - accuracy: 0.6377 - val_loss: 1.1535 - val_accuracy: 0.6178<br/>
+Epoch 14/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1371 - accuracy: 0.6416 - val_loss: 1.1585 - val_accuracy: 0.6178<br/>
+Epoch 15/30<br/>
+<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1301 - accuracy: 0.6446 - val_loss: 1.1570 - val_accuracy: 0.6172<br/>
+Epoch 16/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1235 - accuracy: 0.6478 - val_loss: 1.1561 - val_accuracy: 0.6190<br/>
+Epoch 17/30<br/>
+1302/1302 [==============================] - 48s 37ms/step - loss: 1.1166 - accuracy: 0.6503 - val_loss: 1.1526 - val_accuracy: 0.6216<br/>
+                </code></pre>
+                <h2>Step 4. Inference: use the trained model to translate new sequences.</h2>
+                <h3>Decoding test sentences</h3>
+                <p>Finally, let's demonstrate how to translate brand new English
+                sentences. We simply feed into the model the vectorized English sentence
+                as well as the target token <code>[start]</code>, then we repeatedly
+                generated the next token, until we hit the token
+                <code>[end]</code>.</p>
+                <CodeBlock
+                    code={
+                        `spa_vocab = spa_vectorization.get_vocabulary()
+spa_index_lookup = dict(zip(range(len(spa_vocab)), spa_vocab))
+max_decoded_sentence_length = 20
+
+def decode_sequence(input_sentence):
+    tokenized_input_sentence = eng_vectorization([input_sentence])
+    decoded_sentence = "[start]"
+    for i in range(max_decoded_sentence_length):
+
+        tokenized_target_sentence = spa_vectorization([decoded_sentence])[:, :-1]
+
+        probs = transformer([tokenized_input_sentence, tokenized_target_sentence], training = False)
+        sampled_token_index = int(np.argmax(probs[:, i, :], 1))
+
+        sampled_token = spa_index_lookup[sampled_token_index]
+        decoded_sentence += " " + sampled_token
+
+        if sampled_token == "[end]":
+            break
+    return decoded_sentence
+
+test_eng_texts = [pair[0] for pair in test_pairs]
+
+for _ in range(30):
+    input_sentence = random.choice(test_eng_texts)
+    translated = decode_sequence(input_sentence)
+    print("{}-->{}".format(input_sentence, translated))`}
+                    lang="python"/>
+                <p>After 30 epochs, we get results such as:</p>
+                <pre><code>
+                    She handed him the money. [start] ella le pasó el dinero [end]<br/>
+<br/>
+                    Tom has never heard Mary sing. [start] tom nunca ha oído cantar a mary [end]<br/>
+<br/>
+                    Perhaps she will come tomorrow. [start] tal vez ella vendrá mañana [end]<br/>
+<br/>
+                    I love to write. [start] me encanta escribir [end]<br/>
+<br/>
+                    His French is improving little by little. [start] su francés va a [UNK] sólo un poco [end]<br/>
+<br/>
+                    My hotel told me to call you. [start] mi hotel me dijo que te [UNK] [end]<br/>
+                </code></pre>
             </div>
         ),
     },
