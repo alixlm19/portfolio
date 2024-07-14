@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function About() {
-    const images = [];
+    const images: string[] = [];
     // const images = [
     //     "https://images.unsplash.com/photo-1692544350322-ac70cfd63614?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
     //     "https://images.unsplash.com/photo-1692374227159-2d3592f274c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
@@ -15,7 +15,7 @@ export default function About() {
     return (
         <div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 my-10">
-                {images.map((image, index) => (
+                {images && images.map((image, index) => (
                     <motion.div
                         key={image}
                         initial={{
@@ -90,13 +90,13 @@ export default function About() {
                     Another highlight of my journey is the Real-time Hand Gesture Control Interface for IoT Devices. This project was particularly exciting as it combined machine learning with the burgeoning field of IoT. Using Google’s Mediapipe framework, I developed a cloud-based pipeline and API that enabled IoT devices to understand and respond to hand gestures in real time. It was a fascinating intersection of technology and human interaction, showcasing the potential of machine learning in everyday applications.
                 </Paragraph>
                 <Paragraph className="mt-4">
-                    Throughout my career, I've mastered a variety of programming languages like Python, Java, C++, and R, and have become proficient in cloud platforms such as AWS and GCP. My work with databases like PostgreSQL and BigQuery has further solidified my ability to manage and analyze large datasets effectively.
+                    Throughout my career, I&apos;ve mastered a variety of programming languages like Python, Java, C++, and R, and have become proficient in cloud platforms such as AWS and GCP. My work with databases like PostgreSQL and BigQuery has further solidified my ability to manage and analyze large datasets effectively.
                 </Paragraph>
                 <Paragraph className="mt-4">
                     Fluent in both English and Spanish, I thrive in diverse environments, always ready to collaborate and communicate complex ideas clearly. My journey is far from over, and I am constantly seeking new challenges and opportunities to apply my skills in innovative ways.
                 </Paragraph>
                 <Paragraph className="mt-4">
-                    Thank you for taking the time to explore my portfolio. I invite you to dive into my projects and get in touch if you'd like to collaborate or learn more about my work. Let's create something amazing together!
+                    Thank you for taking the time to explore my portfolio. I invite you to dive into my projects and get in touch if you&apos;d like to collaborate or learn more about my work. Let&apos;s create something amazing together!
                 </Paragraph>
             </div>
         </div>

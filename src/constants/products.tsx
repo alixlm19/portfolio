@@ -87,11 +87,11 @@ from tensorflow.keras.layers import TextVectorization`}
                 <CodeBlock
                     code={
                         `text_file = keras.utils.get_file(
-    fname="spa-eng.zip",
-    origin="http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip",
+    fname=\"spa-eng.zip\",
+    origin=\"http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip\",
     extract=True,
 )
-text_file = pathlib.Path(text_file).parent / "spa-eng" / "spa.txt"`}
+text_file = pathlib.Path(text_file).parent / \"spa-eng\" / \"spa.txt\"`}
                     lang="python" />
                 <h3>Parsing</h3>
                 <p>Each line contains an English sentence and its corresponding Spanish
@@ -104,14 +104,14 @@ text_file = pathlib.Path(text_file).parent / "spa-eng" / "spa.txt"`}
                 <CodeBlock
                     code={
                         `with open(text_file) as f:
-    lines = f.read().split("\\n")[:-1]
+    lines = f.read().split(\"\\n\")[:-1]
 text_pairs = []
 for line in lines:
-    eng, spa = line.split("\\t")
-    spa = "[start] " + spa + " [end]"
+    eng, spa = line.split(\"\\t\")
+    spa = \"[start] \" + spa + \" [end]\"
     text_pairs.append((eng, spa))`}
                     lang="python" />
-                <p>Here's what our sentence pairs look like:</p>
+                <p>Here&apos;s what our sentence pairs look like:</p>
                 <CodeBlock
                     code={
                         `for _ in range(5):
@@ -123,7 +123,7 @@ for line in lines:
                     (&#39;Do you want to watch this program?&#39;, &#39;[start] ¿Quieres ver este programa? [end]&#39;)<br />
                     (&#39;We just have to stick together.&#39;, &#39;[start] Sólo tenemos que permanecer juntos. [end]&#39;)<br />
                 </code></pre>
-                <p>Now, let's split the sentence pairs into a training set, a validation set, and a test set.</p>
+                <p>Now, let&apos;s split the sentence pairs into a training set, a validation set, and a test set.</p>
                 <CodeBlock
                     code={
                         `random.shuffle(text_pairs)
@@ -140,10 +140,10 @@ train_pairs = text_pairs[:num_train_samples]
 val_pairs = text_pairs[num_train_samples : num_train_samples + num_val_samples]
 test_pairs = text_pairs[num_train_samples + num_val_samples :]
 
-print(f"{len(text_pairs)} total pairs")
-print(f"{len(train_pairs)} training pairs")
-print(f"{len(val_pairs)} validation pairs")
-print(f"{len(test_pairs)} test pairs")`}
+print(f\"{len(text_pairs)} total pairs\")
+print(f\"{len(train_pairs)} training pairs\")
+print(f\"{len(val_pairs)} validation pairs\")
+print(f\"{len(test_pairs)} test pairs\")`}
                     lang="python" />
                 <pre><code>
                     118964 total pairs<br />
@@ -163,9 +163,9 @@ print(f"{len(test_pairs)} test pairs")`}
                 </p>
                 <CodeBlock
                     code={
-                        `strip_chars = string.punctuation + "¿"
-strip_chars = strip_chars.replace("[", "")
-strip_chars = strip_chars.replace("]", "")
+                        `strip_chars = string.punctuation + \"¿\"
+strip_chars = strip_chars.replace(\"[\", \"\")
+strip_chars = strip_chars.replace(\"]\", \"\")
 
 vocab_size = 15000
 sequence_length = 20
@@ -173,14 +173,14 @@ batch_size = 64
 
 def custom_standardization(input_string):
     lowercase = tf.strings.lower(input_string)
-    return tf.strings.regex_replace(lowercase, "[%s]" % re.escape(strip_chars), "")
+    return tf.strings.regex_replace(lowercase, \"[%s]\" % re.escape(strip_chars), \"\")
 
 eng_vectorization = TextVectorization(
-    max_tokens=vocab_size, output_mode="int", output_sequence_length=sequence_length,
+    max_tokens=vocab_size, output_mode=\"int\", output_sequence_length=sequence_length,
 )
 spa_vectorization = TextVectorization(
     max_tokens=vocab_size,
-    output_mode="int",
+    output_mode=\"int\",
     output_sequence_length=sequence_length + 1,
     standardize=custom_standardization,
 )
@@ -201,7 +201,7 @@ spa_vectorization.adapt(train_spa_texts)`}
 
                         <code>encoder_inputs</code> and <code>decoder_inputs</code>.
                         <code>decoder_inputs</code> is the vectorized source sentence and
-                        <code>encoder_inputs</code> is the target sentence "so far", that is to
+                        <code>encoder_inputs</code> is the target sentence &quot;so far&quot;, that is to
                         say, the words 0 to N used to predict word N+1 (and beyond) in the
                         target sentence.</li>
                     <li><code>target</code> is the target sentence offset by one step: it
@@ -213,7 +213,7 @@ spa_vectorization.adapt(train_spa_texts)`}
                         `def format_dataset(eng, spa):
     eng = eng_vectorization(eng)
     spa = spa_vectorization(spa)
-    return ({"encoder_inputs": eng, "decoder_inputs": spa[:, :-1],}, spa[:, 1:])
+    return ({\"encoder_inputs\": eng, \"decoder_inputs\": spa[:, :-1],}, spa[:, 1:])
 
 
 def make_dataset(pairs):
@@ -229,14 +229,14 @@ def make_dataset(pairs):
 train_ds = make_dataset(train_pairs)
 val_ds = make_dataset(val_pairs)`}
                     lang="python" />
-                <p>Let's take a quick look at the sequence shapes (we have batches of 64 pairs, and all sequences are 20 steps long):</p>
+                <p>Let&apos;s take a quick look at the sequence shapes (we have batches of 64 pairs, and all sequences are 20 steps long):</p>
                 <CodeBlock
                     code={
                         `for inputs, targets in train_ds.take(1):
-    print(f'inputs["encoder_inputs"].shape: {inputs["encoder_inputs"].shape}')
-    print(f'inputs["decoder_inputs"].shape: {inputs["decoder_inputs"].shape}')
+    print(f&apos;inputs[\"encoder_inputs\"].shape: {inputs[\"encoder_inputs\"].shape}&apos;)
+    print(f&apos;inputs[\"decoder_inputs\"].shape: {inputs[\"decoder_inputs\"].shape}&apos;)
 
-    print(f"targets.shape: {targets.shape}")
+    print(f\"targets.shape: {targets.shape}\")
                         `}
                     lang="python"
                 />
@@ -261,11 +261,11 @@ val_ds = make_dataset(val_pairs)`}
                         seek to predict the next words in the target sequence (N+1 and
                         beyond).</p></li>
                 </ul>
-                <p><Image src="/images/transformer.png" width={455} height={655} /></p>
-                <p>Figure 2: The Transformer architecture as discussed in lecture, from <a href="https://arxiv.org/abs/1706.03762">"Attention is all you need"</a> (Vaswani et al., 2017).</p>
+                <p><Image src="/images/transformer.png" width={455} height={655} alt=""/></p>
+                <p>Figure 2: The Transformer architecture as discussed in lecture, from <a href="https://arxiv.org/abs/1706.03762">&quot;Attention is all you need&quot;</a> (Vaswani et al., 2017).</p>
                 <h3>Technical details</h3>
                 <ul>
-                    <li>The Transformer's encoder and decoder consist of N layers
+                    <li>The Transformer&apos;s encoder and decoder consist of N layers
                         (<code>num_layers</code>) each, containing <a
                             href="https://developers.google.com/machine-learning/glossary#multi-head-self-attention">multi-head
                             attention</a> (<code>tf.keras.layers.MultiHeadAttention</code>) layers
@@ -273,7 +273,7 @@ val_ds = make_dataset(val_pairs)`}
                         networks.
                         <ul>
                             <li>The encoder leverages the self-attention mechanism.</li>
-                            <li>The decoder (with N decoder layers) attends to the encoder's output
+                            <li>The decoder (with N decoder layers) attends to the encoder&apos;s output
                                 (with cross-attention to utilize the information from the encoder) and
                                 its own input (with masked self-attention) to predict the next word. The
                                 masked self-attention is causal—it is there to make sure the model can
@@ -282,17 +282,17 @@ val_ds = make_dataset(val_pairs)`}
                     <li>Multi-head attention: Each multi-head attention block gets three
                         inputs; Q (query), K (key), V (value). Instead of one single attention
                         head, Q, K, and V are split into multiple heads because it allows the
-                        model to <a href="https://arxiv.org/abs/1706.03762">"jointly attend to
+                        model to <a href="https://arxiv.org/abs/1706.03762">&quot;jointly attend to
                             information from different representation subspaces at different
-                            positions"</a>. You can read more about <a
+                            positions&quot;</a>. You can read more about <a
                                 href="https://storrs.io/attention/">single-head-attention</a> and <a
                                     href="https://storrs.io/multihead-attention/">multi-head-attention</a>.
                         The equation used to calculate the self-attention weights is as follows:
                         <span>{`$$\Large{Attention(Q, K, V) =
                             softmax_k\left(\frac{QK ^ T}{\sqrt{d_k}}\right) V} $$`}</span></li>
                 </ul>
-                <p><Image src="/images/transformer_multi-head-attention.png" width={438} height={447}/></p>
-                <p>Figure 3: Multi-head attention from Google Research's <a href="https://arxiv.org/abs/1706.03762">"Attention is all you need"</a>(Vaswani et al., 2017).</p>
+                <p><Image src="/images/transformer_multi-head-attention.png" width={438} height={447} alt=""/></p>
+                <p>Figure 3: Multi-head attention from Google Research&apos;s <a href="https://arxiv.org/abs/1706.03762">&quot;Attention is all you need&quot;</a>(Vaswani et al., 2017).</p>
                 <h3>Component 1: Position Encoding Layer</h3>
                 <p>After text vectorization, both the input sentences (English) and
                     target sentences (Spanish) have to be converted to embedding vectors
@@ -307,7 +307,7 @@ val_ds = make_dataset(val_pairs)`}
                     encoding:</p>
                 <p><span>{`$$\Large{PE_{(pos, 2i)} = \sin(pos /
                     10000^{2i / \text{depth}})} $$</span> <span
-                        class="math display">$$\Large{PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i /
+                        class=\"math display\">$$\Large{PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i /
                         \text{depth}})} $$`}</span></p>
                 <p>where <code>pos</code> takes value from 0 to <code>length - 1</code>
                     and <code>i</code> takes value from <code>0</code> to
@@ -339,15 +339,15 @@ pos_encoding = positional_encoding(length=2048, depth=512)
 assert pos_encoding.shape == (2048, 512)
 
 # Plot the dimensions.
-plt.pcolormesh(pos_encoding.numpy().T, cmap='RdBu')
-plt.ylabel('Depth')
-plt.xlabel('Position')
+plt.pcolormesh(pos_encoding.numpy().T, cmap=&apos;RdBu&apos;)
+plt.ylabel(&apos;Depth&apos;)
+plt.xlabel(&apos;Position&apos;)
 plt.colorbar()
 plt.show()`}
                     lang="python" />
 
-                <p><Image src="/images/transformer-decoding_depth_vs_position.png" width={387} height={266} /></p>
-                <p>Now, let's sequence the embedding and positional_encoding together to get a Positional Embedding Layer.</p>
+                <p><Image src="/images/transformer-decoding_depth_vs_position.png" width={387} height={266} alt=""/></p>
+                <p>Now, let&apos;s sequence the embedding and positional_encoding together to get a Positional Embedding Layer.</p>
                 <CodeBlock
                     code={
                         `class PositionalEmbedding(layers.Layer):
@@ -385,7 +385,7 @@ plt.show()`}
             num_heads=num_heads, key_dim=embed_dim
         )
         self.feed_forward = keras.Sequential(
-            [layers.Dense(dense_dim, activation="relu"), layers.Dense(embed_dim),]
+            [layers.Dense(dense_dim, activation=\"relu\"), layers.Dense(embed_dim),]
         )
         self.layernorm_1 = layers.LayerNormalization()
         self.layernorm_2 = layers.LayerNormalization()
@@ -393,7 +393,7 @@ plt.show()`}
 
     def call(self, inputs, mask=None):
         if mask is not None:
-            padding_mask = tf.cast(mask[:, tf.newaxis, tf.newaxis, :], dtype="int32")
+            padding_mask = tf.cast(mask[:, tf.newaxis, tf.newaxis, :], dtype=\"int32\")
         else:
             padding_mask = None
 
@@ -407,9 +407,9 @@ plt.show()`}
     def get_config(self):
         config = super().get_config()
         config.update({
-            "embed_dim": self.embed_dim,
-            "dense_dim": self.dense_dim,
-            "num_heads": self.num_heads,
+            \"embed_dim\": self.embed_dim,
+            \"dense_dim\": self.dense_dim,
+            \"num_heads\": self.num_heads,
         })
         return config
 
@@ -426,7 +426,7 @@ plt.show()`}
             num_heads=num_heads, key_dim=embed_dim
         )
         self.feed_forward = keras.Sequential(
-            [layers.Dense(latent_dim, activation="relu"), layers.Dense(embed_dim),]
+            [layers.Dense(latent_dim, activation=\"relu\"), layers.Dense(embed_dim),]
         )
         self.layernorm_1 = layers.LayerNormalization()
         self.layernorm_2 = layers.LayerNormalization()
@@ -436,7 +436,7 @@ plt.show()`}
     def call(self, inputs, encoder_outputs, mask=None):
         causal_mask = self.get_causal_attention_mask(inputs)
         if mask is not None:
-            padding_mask = tf.cast(mask[:, tf.newaxis, :], dtype="int32")
+            padding_mask = tf.cast(mask[:, tf.newaxis, :], dtype=\"int32\")
             padding_mask = tf.minimum(padding_mask, causal_mask)
 
         attention_output_1 = self.attention_1(query = inputs, value = inputs, key = inputs, attention_mask = causal_mask)
@@ -453,7 +453,7 @@ plt.show()`}
         batch_size, sequence_length = input_shape[0], input_shape[1]
         i = tf.range(sequence_length)[:, tf.newaxis]
         j = tf.range(sequence_length)
-        mask = tf.cast(i >= j, dtype="int32")
+        mask = tf.cast(i >= j, dtype=\"int32\")
         mask = tf.reshape(mask, (1, input_shape[1], input_shape[1]))
         mult = tf.concat(
             [tf.expand_dims(batch_size, -1), tf.constant([1, 1], dtype=tf.int32)],
@@ -464,9 +464,9 @@ plt.show()`}
     def get_config(self):
         config = super().get_config()
         config.update({
-            "embed_dim": self.embed_dim,
-            "latent_dim": self.latent_dim,
-            "num_heads": self.num_heads,
+            \"embed_dim\": self.embed_dim,
+            \"latent_dim\": self.latent_dim,
+            \"num_heads\": self.num_heads,
         })
         return config`}
                     lang="python" />
@@ -481,20 +481,20 @@ num_heads = 4 #`}
                 <p>Assemble the layers</p>
                 <CodeBlock
                     code={
-                        `encoder_inputs = keras.Input(shape=(None,), dtype="int64", name="encoder_inputs")
+                        `encoder_inputs = keras.Input(shape=(None,), dtype=\"int64\", name=\"encoder_inputs\")
 
 x = PositionalEmbedding(sequence_length, vocab_size, embed_dim)(encoder_inputs)
 
 encoder_outputs = TransformerEncoder(embed_dim, latent_dim, num_heads)(x)
 encoder = keras.Model(encoder_inputs, encoder_outputs)
 
-decoder_inputs = keras.Input(shape=(None,), dtype="int64", name="decoder_inputs")
-encoded_seq_inputs = keras.Input(shape=(None, embed_dim), name="decoder_state_inputs")
+decoder_inputs = keras.Input(shape=(None,), dtype=\"int64\", name=\"decoder_inputs\")
+encoded_seq_inputs = keras.Input(shape=(None, embed_dim), name=\"decoder_state_inputs\")
 
 x = PositionalEmbedding(sequence_length, vocab_size, embed_dim)(decoder_inputs)
 x = TransformerDecoder(embed_dim, latent_dim, num_heads)(x, encoded_seq_inputs)
 x = tf.keras.layers.Dropout(0.5)(x)
-decoder_outputs = tf.keras.layers.Dense(units = vocab_size, activation = "softmax")(x)
+decoder_outputs = tf.keras.layers.Dense(units = vocab_size, activation = \"softmax\")(x)
 
 # Note: the goal of this layer is to expand the dimension to match the vocabulary size in the target language, so choosing the layer output size accordingly
 # Note: the output should be probabilities, so choose the activation function accordingly.
@@ -503,32 +503,32 @@ decoder = keras.Model([decoder_inputs, encoded_seq_inputs], decoder_outputs)
 decoder_outputs = decoder([decoder_inputs, encoder_outputs])
 
 transformer = keras.Model(
-    [encoder_inputs, decoder_inputs], decoder_outputs, name="transformer"
+    [encoder_inputs, decoder_inputs], decoder_outputs, name=\"transformer\"
 )`}
                     lang="python" />
                 <h2>Step 3. Training our model</h2>
-                <p>We'll use accuracy as a quick way to monitor training progress on the validation data. Note that machine translation typically uses BLEU scores as well as other metrics, rather than accuracy.
+                <p>We&apos;ll use accuracy as a quick way to monitor training progress on the validation data. Note that machine translation typically uses BLEU scores as well as other metrics, rather than accuracy.
 
                     Here we only train for a few epochs (to confirm everything), but to get the model to actually converge you should train for at least 30 epochs.</p>
                 <pre><code>
-                    Model: "transformer"<br />
+                    Model: &quot;transformer&quot;<br />
                     __________________________________________________________________________________________________<br />
                     Layer (type)                   Output Shape         Param #     Connected to<br />
 ==================================================================================================<br/>
  encoder_inputs (InputLayer)    [(None, None)]       0           []<br/>
 <br/>
- positional_embedding_4 (Positi  (None, None, 64)    960000      ['encoder_inputs[0][0]']<br/>
+ positional_embedding_4 (Positi  (None, None, 64)    960000      [&apos;encoder_inputs[0][0]&apos;]<br/>
  onalEmbedding)<br/>
 <br/>
  decoder_inputs (InputLayer)    [(None, None)]       0           []<br/>
 <br/>
 <br/>
- transformer_encoder_2 (Transfo  (None, None, 64)    132736      ['positional_embedding_4[0][0]']<br/>
+ transformer_encoder_2 (Transfo  (None, None, 64)    132736      [&apos;positional_embedding_4[0][0]&apos;]<br/>
  rmerEncoder)<br/>
 <br/>
 <br/>
- model_5 (Functional)           (None, None, 15000)  2134232     ['decoder_inputs[0][0]',<br/>
-                                                                  'transformer_encoder_2[0][0]<br/>']
+ model_5 (Functional)           (None, None, 15000)  2134232     [&apos;decoder_inputs[0][0]&apos;,<br/>
+                                                                  &apos;transformer_encoder_2[0][0]<br/>&apos;]
 <br/>
 ==================================================================================================<br/>
 Total params: 3,226,968<br/>
@@ -576,7 +576,7 @@ Epoch 17/30<br/>
                 </code></pre>
                 <h2>Step 4. Inference: use the trained model to translate new sequences.</h2>
                 <h3>Decoding test sentences</h3>
-                <p>Finally, let's demonstrate how to translate brand new English
+                <p>Finally, let&apos;s demonstrate how to translate brand new English
                 sentences. We simply feed into the model the vectorized English sentence
                 as well as the target token <code>[start]</code>, then we repeatedly
                 generated the next token, until we hit the token
@@ -589,7 +589,7 @@ max_decoded_sentence_length = 20
 
 def decode_sequence(input_sentence):
     tokenized_input_sentence = eng_vectorization([input_sentence])
-    decoded_sentence = "[start]"
+    decoded_sentence = \"[start]\"
     for i in range(max_decoded_sentence_length):
 
         tokenized_target_sentence = spa_vectorization([decoded_sentence])[:, :-1]
@@ -598,9 +598,9 @@ def decode_sequence(input_sentence):
         sampled_token_index = int(np.argmax(probs[:, i, :], 1))
 
         sampled_token = spa_index_lookup[sampled_token_index]
-        decoded_sentence += " " + sampled_token
+        decoded_sentence += \" \" + sampled_token
 
-        if sampled_token == "[end]":
+        if sampled_token == \"[end]\":
             break
     return decoded_sentence
 
@@ -609,7 +609,7 @@ test_eng_texts = [pair[0] for pair in test_pairs]
 for _ in range(30):
     input_sentence = random.choice(test_eng_texts)
     translated = decode_sequence(input_sentence)
-    print("{}-->{}".format(input_sentence, translated))`}
+    print(\"{}-->{}\".format(input_sentence, translated))`}
                     lang="python"/>
                 <p>After 30 epochs, we get results such as:</p>
                 <pre><code>
@@ -649,7 +649,7 @@ for _ in range(30):
 
                 <p><strong>Key Findings:</strong></p>
                 <p>1. <strong>Non-Normal Distributions:</strong> One of the prominent discoveries was that the majority of assets in the portfolio did not adhere to normal distributions. Instead, they followed Skewed Standardized-t distributions, with some fitting a Generalized Error Distribution pattern.</p>
-                <p>2. <strong>Performance Insights:</strong> Among the analyzed assets, Microsoft emerged as a standout performer with consistently high returns and a robust reward-to-risk ratio. This highlighted Microsoft's resilience and profitability within the portfolio context.</p>
+                <p>2. <strong>Performance Insights:</strong> Among the analyzed assets, Microsoft emerged as a standout performer with consistently high returns and a robust reward-to-risk ratio. This highlighted Microsoft&apos;s resilience and profitability within the portfolio context.</p>
                 <p>3. <strong>Asset Independence:</strong> A significant observation was the near-zero covariance among many assets. This finding indicated a level of independence between assets, underscoring the importance of diversification in minimizing portfolio risk effectively.</p>
                 <p>4. <strong>Copula Analysis:</strong> Employing t-Copula modeling, the study revealed an increased likelihood of joint extreme events among asset values. This aspect emphasized the necessity of robust risk management strategies to mitigate potential losses during market downturns.</p>
                 <p>5. <strong>Portfolio Construction:</strong> Various portfolio strategies were explored, including the Minimum Variance Portfolio (MVP) and Efficient Portfolio, aiming to optimize returns while managing risk levels prudently. These strategies underscored the application of statistical methods in constructing balanced and efficient investment portfolios.</p>
@@ -663,7 +663,7 @@ for _ in range(30):
 
                 <p><strong>Future Directions:</strong> Future research endeavors could expand on this analysis by incorporating a broader range of assets or integrating machine learning algorithms for predictive modeling. Such advancements could further enhance portfolio management strategies, offering deeper insights and improved decision-making capabilities.</p>
 
-                <p><strong>Conclusion:</strong> In summary, the Statistical Methods In Finance final project offers a comprehensive exploration of portfolio dynamics and performance metrics, demonstrating the power of statistical rigor in illuminating financial trends and informing investment strategies. By leveraging these insights, investors can effectively manage risks and capitalize on opportunities in today's dynamic financial landscape.</p>
+                <p><strong>Conclusion:</strong> In summary, the Statistical Methods In Finance final project offers a comprehensive exploration of portfolio dynamics and performance metrics, demonstrating the power of statistical rigor in illuminating financial trends and informing investment strategies. By leveraging these insights, investors can effectively manage risks and capitalize on opportunities in today&apos;s dynamic financial landscape.</p>
             </div>
         ),
     },

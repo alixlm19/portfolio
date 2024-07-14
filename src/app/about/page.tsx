@@ -10,9 +10,9 @@ import { motion } from "framer-motion";
 import About from "@/components/About";
 
 export const metadata: Metadata = {
-  title: "About | John Doe",
+  title: "About | Alix Leon",
   description:
-    "John Doe is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
+    "Alix Leon is a data scientist / software engineer that loves building products with data and using science-based approaches to find the hidden patterns, generating actionable insights that can impact millions of lives",
 };
 
 export default function AboutPage() {
