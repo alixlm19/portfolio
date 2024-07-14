@@ -1,5 +1,6 @@
+'use client';
+
 import { bundledLanguages, createHighlighter, Highlighter } from 'shiki/bundle/web';
-import { useMemo } from 'react';
 
 const langs = [...Object.keys(bundledLanguages)]
 let highlighter: Highlighter | undefined = undefined;
