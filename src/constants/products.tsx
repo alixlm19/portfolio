@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const products = [
     {
-        href: "https://aceternity.com",
+        href: "https://github.com/alixlm19/Image-Classifier-on-Noisy-Labels",
         title: "Image Classifier on Noisy Labels",
         description:
             "Implementation of the Multi-Label Fashion Image Classification with Minimal Human Supervision paper from Inoue et al. on the CIFAR-10 dataset.",
@@ -31,7 +31,7 @@ export const products = [
         ),
     },
     {
-        href: "https://algochurn.com",
+        href: "https://github.com/alixlm19/English-Spanish-Translation-with-Transformers",
         title: "English-Spanish Translation with Transformers",
         description:
             "This project develops an English-Spanish translation model using transformer architectures. By training on a large corpus of parallel texts, the model achieves high accuracy and fluency. It involves data preprocessing, model training, and evaluation, showcasing the power of transformers in enhancing multilingual communication.",
