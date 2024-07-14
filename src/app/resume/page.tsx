@@ -12,9 +12,10 @@ export default function Home() {
       <span className="text-4xl">💼</span>
       <Heading className="font-black">Work History</Heading>
       <Paragraph className="max-w-xl mt-4">
-        I&apos;m a full-stack developer that loves{" "}
-        <Highlight>building products</Highlight> and web apps that can impact
-        millions of lives
+        I&apos;m a data scientist / software engineer that loves{" "}
+        <Highlight>building products with data</Highlight> and using science-based approaches
+        to find the hidden patterns, generating actionable insights
+        that can impact millions of lives
       </Paragraph>
       <WorkHistory />
     </Container>
