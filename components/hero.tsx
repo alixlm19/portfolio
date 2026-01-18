@@ -1,69 +1,157 @@
+"use client";
+
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
-import { getPersonalInfo } from "@/lib/data";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { MagneticButton } from "./magnetic-button";
 
-export function Hero() {
-  const data = getPersonalInfo();
+interface HeroProps {
+  data: {
+    name: string;
+    title: string;
+    tagline: string;
+    social: {
+      github: string;
+      linkedin: string;
+      email: string;
+    };
+  };
+}
+
+export function Hero({ data }: HeroProps) {
+  const [typedText, setTypedText] = useState("");
+  const fullText = data.title;
+
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullText.length) {
+        setTypedText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [fullText]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
 
   return (
     <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
-      <div className="max-w-4xl mx-auto text-center space-y-8">
+      <motion.div
+        className="max-w-4xl mx-auto text-center space-y-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="space-y-4">
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
+          <motion.h1
+            className="text-4xl sm:text-6xl font-bold tracking-tight"
+            variants={itemVariants}
+          >
             Hi, I'm{" "}
-            <span className="bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent animate-gradient">
               {data.name}
             </span>
-          </h1>
-          <h2 className="text-2xl sm:text-3xl text-muted-foreground">
-            {data.title}
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          </motion.h1>
+          <motion.h2
+            className="text-2xl sm:text-3xl text-muted-foreground min-h-[2.5rem]"
+            variants={itemVariants}
+          >
+            {typedText}
+            <span className="animate-pulse">|</span>
+          </motion.h2>
+          <motion.p
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            variants={itemVariants}
+          >
             {data.tagline}
-          </p>
+          </motion.p>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="#projects"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
-          >
-            View My Work
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent transition-colors"
-          >
-            Get In Touch
-          </Link>
-        </div>
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-4"
+          variants={itemVariants}
+        >
+          <MagneticButton>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="#projects"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+              >
+                View My Work
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          </MagneticButton>
+          <MagneticButton>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent transition-colors"
+              >
+                Get In Touch
+              </Link>
+            </motion.div>
+          </MagneticButton>
+        </motion.div>
 
-        <div className="flex items-center justify-center gap-6 pt-4">
-          <a
+        <motion.div
+          className="flex items-center justify-center gap-6 pt-4"
+          variants={itemVariants}
+        >
+          <motion.a
             href={data.social.github}
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-lg hover:bg-accent transition-colors"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.9 }}
           >
             <Github className="h-6 w-6" />
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href={data.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-lg hover:bg-accent transition-colors"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.9 }}
           >
             <Linkedin className="h-6 w-6" />
-          </a>
-          <a
-            href={`mailto:${data.email}`}
+          </motion.a>
+          <motion.a
+            href={`mailto:${data.social.email}`}
             className="p-2 rounded-lg hover:bg-accent transition-colors"
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.9 }}
           >
             <Mail className="h-6 w-6" />
-          </a>
-        </div>
-      </div>
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
