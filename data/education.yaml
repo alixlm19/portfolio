@@ -1,0 +1,26 @@
+education:
+  - school: "Columbia University"
+    degree: "Master of Arts in Statistics"
+    period: "2021 - 2023"
+    location: "New York, NY"
+    concentration: "Machine Learning Concentration"
+    coursework:
+      - "Machine Learning"
+      - "Statistical Inference"
+      - "Deep Learning"
+      - "Natural Language Processing"
+      - "Bayesian Methods"
+      - "Cloud Computing"
+  
+  - school: "CUNY Lehman College"
+    degree: "Bachelor of Science in Computer Science"
+    period: "2016 - 2020"
+    location: "Bronx, NY"
+    minor: "Minor in Mathematics"
+    coursework:
+      - "Algorithms and Data Structures"
+      - "Software Engineering"
+      - "Database Systems"
+      - "Artificial Intelligence"
+      - "Operating Systems"
+      - "Networks"

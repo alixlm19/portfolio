@@ -1,0 +1,58 @@
+# Personal Information
+name: "Alix Leon"
+fullName: "Alix Francois Leon"
+title: "Machine Learning Engineer & Software Engineer"
+tagline: "Specializing in large language models, distributed systems, and cloud infrastructure. Building production-ready AI solutions with Python, Go, and AWS."
+location: "New York, NY"
+phone: "+1 6469730247"
+email: "alix.f.leon@gmail.com"
+
+# Social Links
+social:
+  github: "https://github.com/alixlm19"
+  linkedin: "https://linkedin.com/in/alixleon"
+  website: "https://alixleon.com"
+
+# About Section
+about:
+  description: "Software and Machine Learning Engineer with extensive experience in backend development, distributed systems, and LLM applications. Specialized in building scalable AI solutions using Python and Go, with deep expertise in AWS infrastructure and MLOps."
+  
+  skills:
+    - icon: "Brain"
+      title: "LLM Development & AI"
+      description: "Expert in building production LLM systems with PyTorch, TensorFlow, LangGraph, and DSPy. Specializing in prompt engineering, RAG architectures, and model fine-tuning."
+    
+    - icon: "Code2"
+      title: "Backend Engineering"
+      description: "High-performance backend development with Python and Go. Experienced in building distributed systems, microservices, and optimizing for low-latency, high-concurrency applications."
+    
+    - icon: "Database"
+      title: "Data Engineering & Analytics"
+      description: "Building scalable ETL pipelines with PySpark and Snowflake. Statistical modeling and credit risk analytics using R, Python, and SQL."
+    
+    - icon: "Workflow"
+      title: "Cloud & MLOps"
+      description: "Architecting AWS infrastructure (Lambda, EC2, S3, RDS). Implementing CI/CD pipelines, automated testing, and model governance frameworks."
+
+# Tech Stack
+techStack:
+  - "Python"
+  - "Rust"
+  - "Go"
+  - "Java"
+  - "C++"
+  - "R"
+  - "PyTorch"
+  - "TensorFlow"
+  - "LangChain"
+  - "LangGraph"
+  - "DSPy"
+  - "Hugging Face"
+  - "AWS"
+  - "GCP"
+  - "Docker"
+  - "PostgreSQL"
+  - "MongoDB"
+  - "Snowflake"
+  - "PySpark"
+  - "Git"
