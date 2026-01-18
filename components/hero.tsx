@@ -11,10 +11,11 @@ interface HeroProps {
     name: string;
     title: string;
     tagline: string;
+    email: string;
     social: {
       github: string;
       linkedin: string;
-      email: string;
+      website: string;
     };
   };
 }
@@ -143,7 +144,7 @@ export function Hero({ data }: HeroProps) {
             <Linkedin className="h-6 w-6" />
           </motion.a>
           <motion.a
-            href={`mailto:${data.social.email}`}
+            href={`mailto:${data.email}`}
             className="p-2 rounded-lg hover:bg-accent transition-colors"
             whileHover={{ scale: 1.2, rotate: 5 }}
             whileTap={{ scale: 0.9 }}
