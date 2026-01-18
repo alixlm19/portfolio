@@ -1,0 +1,45 @@
+projects:
+  - title: "LLM-Powered Voice Agent Platform"
+    description: "Architected end-to-end AWS infrastructure for an AI voice agent connecting dealership CRMs with customers. Built reasoning engine with LangGraph and DSPy, handling complex conversational flows in real-time."
+    tags:
+      - "Python"
+      - "LangGraph"
+      - "DSPy"
+      - "AWS Lambda"
+      - "EC2"
+      - "S3"
+    github: "https://github.com/alixlm19"
+    demo: ""
+  
+  - title: "High-Performance RAG Inventory Search API"
+    description: "Re-engineered RAG-based inventory search microservice, migrating backend from Python to Go. Achieved significant concurrency improvements and reduced API latency for real-time interactions."
+    tags:
+      - "Go"
+      - "Python"
+      - "RAG"
+      - "Vector Search"
+      - "Microservices"
+    github: "https://github.com/alixlm19"
+    demo: ""
+  
+  - title: "Credit Risk Modeling System"
+    description: "Developed and validated statistical models for PD, LGD, and EAD using Python, R, and PyTorch. Implemented XGBoost ensembles with time-series forecasting, ensuring regulatory compliance."
+    tags:
+      - "Python"
+      - "R"
+      - "PyTorch"
+      - "XGBoost"
+      - "Statistical Modeling"
+    github: "https://github.com/alixlm19"
+    demo: ""
+  
+  - title: "Multi-Cloud ETL & Analytics Pipeline"
+    description: "Built automated ETL pipelines and reporting dashboards across AWS, GCP, and Snowflake. Reduced manual data processing time while enabling strategic decision-making through actionable insights."
+    tags:
+      - "Python"
+      - "PySpark"
+      - "AWS"
+      - "GCP"
+      - "Snowflake"
+    github: "https://github.com/alixlm19"
+    demo: ""

@@ -1,0 +1,30 @@
+experience:
+  - company: "TheCRM Corporation"
+    role: "AI/ML Engineer"
+    period: "Jan 2025 - Jan 2026"
+    location: "Remote"
+    description: "Architected end-to-end AWS infrastructure for LLM-based voice agent. Engineered core reasoning engine with LangGraph and DSPy. Migrated inventory search API from Python to Go, improving concurrency and reducing latency."
+    achievements:
+      - "Designed scalable serverless AWS infrastructure for high-throughput voice agent"
+      - "Improved context retention and dynamic decision-making in real-time calls"
+      - "Orchestrated automated evaluation pipelines using CI/CD and pytest"
+  
+  - company: "Capital One"
+    role: "Quantitative Model Developer"
+    period: "Aug 2024 - Jan 2025"
+    location: "New York, NY"
+    description: "Developed credit risk models for PD, LGD, and EAD using Python, R, and PyTorch. Optimized predictive performance with XGBoost ensembles and time-series forecasting techniques."
+    achievements:
+      - "Influenced lending strategies for commercial and retail portfolios"
+      - "Authored technical documentation aligned with SR 11-7 standards"
+      - "Led impact analyses quantifying effects on loss projections"
+  
+  - company: "Independent Consulting"
+    role: "Data Science Consultant"
+    period: "Jun 2021 - Jan 2023"
+    location: "New York, NY"
+    description: "Architected end-to-end data science solutions on AWS. Built robust ETL pipelines and reporting dashboards across multi-cloud environments."
+    achievements:
+      - "Delivered faster model rollout and improved prediction accuracy for financial clients"
+      - "Reduced manual data processing time with automated pipelines"
+      - "Translated complex analyses into actionable business intelligence"
