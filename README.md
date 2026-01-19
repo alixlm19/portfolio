@@ -2,7 +2,7 @@
 
 A modern, interactive portfolio website built with Next.js 16, featuring a blog with advanced filtering, interactive animations, and a clean, professional design.
 
-## ✨ Features
+## Features
 
 ### Interactive Portfolio
 - **Responsive Design** - Fully responsive across all devices
@@ -40,7 +40,7 @@ A modern, interactive portfolio website built with Next.js 16, featuring a blog 
 - **SEO Optimized** - Proper meta tags and structured data
 - **Performance** - Server-side rendering and static generation
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 20+ or Bun
@@ -83,7 +83,7 @@ npm run dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📝 Content Management
+## Content Management
 
 ### Adding Blog Posts
 1. Create a new `.md` file in `content/posts/`
@@ -109,7 +109,7 @@ Edit `data/personal-info.yaml` to update your:
 - Projects
 - Contact information
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 16.1.3 (App Router)
 - **Language**: TypeScript
@@ -120,7 +120,7 @@ Edit `data/personal-info.yaml` to update your:
 - **Icons**: Lucide React
 - **Deployment**: Vercel
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 portfolio/
@@ -135,7 +135,7 @@ portfolio/
 └── public/              # Static assets
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Colors
 Edit `app/globals.css` to customize the color scheme:
@@ -151,13 +151,13 @@ Adjust animation parameters in component files:
 - `components/animated-gradient-orbs.tsx` - Background orbs
 - `components/click-effects.tsx` - Click animations
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 You are free to use, modify, and distribute this code for personal or commercial purposes.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [Next.js](https://nextjs.org/)
 - Animations powered by [GSAP](https://greensock.com/gsap/) and [Framer Motion](https://www.framer.com/motion/)
@@ -166,4 +166,4 @@ You are free to use, modify, and distribute this code for personal or commercial
 
 ---
 
-Made with ❤️ using Next.js and TypeScript
+Made with Next.js and TypeScript
