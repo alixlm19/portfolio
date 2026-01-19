@@ -3,6 +3,7 @@ import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { MarkdownContent } from "@/components/markdown-content";
+import { BlogScrollTimeline } from "@/components/blog-scroll-timeline";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -21,6 +22,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <BlogScrollTimeline />
       <article className="max-w-4xl mx-auto px-4 py-12 sm:py-20">
         <Link
           href="/blog"
