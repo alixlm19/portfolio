@@ -43,6 +43,21 @@ export function FunCursor() {
       });
     };
 
+    const handleCodeBlockEnter = () => {
+      gsap.to([cursor, follower], {
+        opacity: 0,
+        duration: 0.2,
+      });
+    };
+
+    const handleCodeBlockLeave = () => {
+      gsap.to([cursor, follower], {
+        opacity: 1,
+        duration: 0.2,
+      });
+      gsap.set(follower, { opacity: 0.5 });
+    };
+
     window.addEventListener("mousemove", moveCursor);
 
     // Add hover effects to interactive elements
@@ -50,6 +65,13 @@ export function FunCursor() {
     interactiveElements.forEach((el) => {
       el.addEventListener("mouseenter", handleMouseEnter);
       el.addEventListener("mouseleave", handleMouseLeave);
+    });
+
+    // Hide cursor on code blocks
+    const codeBlocks = document.querySelectorAll("pre, code");
+    codeBlocks.forEach((el) => {
+      el.addEventListener("mouseenter", handleCodeBlockEnter);
+      el.addEventListener("mouseleave", handleCodeBlockLeave);
     });
 
     return () => {
