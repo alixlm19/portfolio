@@ -47,7 +47,7 @@ export function BlogScrollTimeline() {
             trigger: heading,
             start: "top 80%",
             end: "top 50%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none",
           },
         }
       );
@@ -70,7 +70,7 @@ export function BlogScrollTimeline() {
           scrollTrigger: {
             trigger: p,
             start: "top 85%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none",
           },
         }
       );
@@ -93,7 +93,7 @@ export function BlogScrollTimeline() {
           scrollTrigger: {
             trigger: block,
             start: "top 85%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none",
           },
         }
       );
@@ -117,7 +117,7 @@ export function BlogScrollTimeline() {
           scrollTrigger: {
             trigger: item,
             start: "top 90%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none",
           },
         }
       );
