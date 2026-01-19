@@ -145,9 +145,9 @@
 /* Blog post markdown styles - Medium-inspired typography */
 .prose {
   @apply text-foreground;
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 21px;
-  line-height: 1.58;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.7;
   letter-spacing: -0.003em;
 }
 

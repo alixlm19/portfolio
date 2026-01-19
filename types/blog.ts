@@ -7,4 +7,5 @@ export interface BlogPost {
   content: string;
   author: string;
   readTime?: string; // Computed from content
+  featured?: boolean; // Optional featured flag
 }
