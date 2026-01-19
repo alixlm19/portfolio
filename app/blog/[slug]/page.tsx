@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Calendar, Clock, ArrowLeft, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
+import { Navbar } from "@/components/navbar";
 import { MarkdownContent } from "@/components/markdown-content";
 import { BlogScrollTimeline } from "@/components/blog-scroll-timeline";
 import { LikeButton } from "@/components/like-button";
@@ -9,6 +10,7 @@ import { getLikes } from "@/app/actions/likes";
 import { BlogTableOfContents } from "@/components/blog-table-of-contents";
 import { ShareArticle } from "@/components/share-article";
 import { FunCursor } from "@/components/fun-cursor";
+import { ClickEffects } from "@/components/click-effects";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -35,9 +37,12 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const initialLikes = await getLikes(params.slug);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <>
       <FunCursor />
-      <BlogScrollTimeline />
+      <ClickEffects />
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+        <Navbar />
+        <BlogScrollTimeline />
       
       <div className="max-w-7xl mx-auto px-4 py-12 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-8 xl:gap-12">
@@ -154,5 +159,6 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         </div>
       </div>
     </div>
+    </>
   );
 }

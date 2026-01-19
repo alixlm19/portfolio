@@ -65,11 +65,11 @@ export function FunCursor() {
     <>
       <div
         ref={cursorRef}
-        className="fixed w-4 h-4 bg-primary rounded-full pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block"
+        className="fixed w-4 h-4 bg-primary rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block"
       />
       <div
         ref={followerRef}
-        className="fixed w-8 h-8 border-2 border-primary rounded-full pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 opacity-50 hidden md:block"
+        className="fixed w-8 h-8 border-2 border-primary rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 opacity-50 hidden md:block"
       />
     </>
   );

@@ -4,24 +4,28 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const isOnHomePage = pathname === "/";
+
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "About", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" },
-    { name: "Education", href: "#education" },
+    { name: "About", href: isOnHomePage ? "#about" : "/#about" },
+    { name: "Experience", href: isOnHomePage ? "#experience" : "/#experience" },
+    { name: "Projects", href: isOnHomePage ? "#projects" : "/#projects" },
+    { name: "Education", href: isOnHomePage ? "#education" : "/#education" },
     { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "#contact" },
+    { name: "Contact", href: isOnHomePage ? "#contact" : "/#contact" },
   ];
 
   return (
