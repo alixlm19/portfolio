@@ -141,3 +141,106 @@
   background-size: 200% 200%;
   animation: gradient 8s ease infinite;
 }
+
+/* Blog post markdown styles - Medium-inspired typography */
+.prose {
+  @apply text-foreground;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 21px;
+  line-height: 1.58;
+  letter-spacing: -0.003em;
+}
+
+.prose pre {
+  @apply bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto my-8;
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.prose code {
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-size: 16px;
+}
+
+.prose pre code {
+  @apply bg-transparent text-zinc-100 p-0;
+}
+
+.prose :not(pre) > code {
+  @apply bg-zinc-800 text-primary px-2 py-1 rounded;
+  font-size: 18px;
+}
+
+.prose h1 {
+  @apply text-foreground mb-8 mt-12;
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+}
+
+.prose h2 {
+  @apply text-foreground mb-6 mt-12;
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.019em;
+}
+
+.prose h3 {
+  @apply text-foreground mb-4 mt-10;
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+}
+
+.prose p {
+  @apply text-foreground mb-8;
+  margin-top: 0;
+}
+
+.prose a {
+  @apply text-foreground no-underline;
+  border-bottom: 1px solid currentColor;
+  transition: border-color 0.2s;
+}
+
+.prose a:hover {
+  @apply border-primary text-primary;
+}
+
+.prose strong {
+  @apply text-foreground;
+  font-weight: 700;
+}
+
+.prose ul,
+.prose ol {
+  @apply my-8;
+  padding-left: 30px;
+}
+
+.prose li {
+  @apply text-foreground mb-3;
+  line-height: 1.58;
+}
+
+.prose ul > li {
+  padding-left: 0;
+}
+
+.prose li > p {
+  @apply mb-3;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-foreground/20 pl-6 italic my-8;
+  font-size: 24px;
+  line-height: 1.48;
+  letter-spacing: -0.014em;
+}
