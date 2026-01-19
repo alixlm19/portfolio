@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { MarkdownContent } from "@/components/markdown-content";
@@ -19,6 +19,12 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   if (!post) {
     notFound();
   }
+
+  // Get all posts and find current post index for navigation
+  const allPosts = getBlogPosts();
+  const currentIndex = allPosts.findIndex((p) => p.slug === params.slug);
+  const previousPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
@@ -70,15 +76,52 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
         <MarkdownContent content={post.content} />
 
-        <div className="mt-16 pt-8 border-t">
+        {/* Post Navigation */}
+        <nav className="mt-16 pt-8 border-t">
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
+            {previousPost ? (
+              <Link
+                href={`/blog/${previousPost.slug}`}
+                className="group flex-1 p-4 rounded-lg border hover:border-primary/50 hover:bg-accent/50 transition-all"
+              >
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                  <ChevronLeft className="h-4 w-4" />
+                  <span>Previous Post</span>
+                </div>
+                <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                  {previousPost.title}
+                </h3>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+
+            {nextPost ? (
+              <Link
+                href={`/blog/${nextPost.slug}`}
+                className="group flex-1 p-4 rounded-lg border hover:border-primary/50 hover:bg-accent/50 transition-all text-right"
+              >
+                <div className="flex items-center justify-end gap-2 text-sm text-muted-foreground mb-2">
+                  <span>Next Post</span>
+                  <ChevronRight className="h-4 w-4" />
+                </div>
+                <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                  {nextPost.title}
+                </h3>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+          </div>
+
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-primary hover:gap-3 transition-all font-medium"
+            className="inline-flex items-center gap-2 text-primary hover:gap-3 transition-all font-medium mt-6"
           >
             <ArrowLeft className="h-4 w-4" />
             Read more articles
           </Link>
-        </div>
+        </nav>
       </article>
     </div>
   );
