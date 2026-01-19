@@ -244,3 +244,26 @@
   line-height: 1.48;
   letter-spacing: -0.014em;
 }
+
+@keyframes fade-out {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+.animate-fade-out {
+  animation: fade-out 2s ease-in-out;
+}
