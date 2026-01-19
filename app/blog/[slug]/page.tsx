@@ -8,6 +8,7 @@ import { LikeButton } from "@/components/like-button";
 import { getLikes } from "@/app/actions/likes";
 import { BlogTableOfContents } from "@/components/blog-table-of-contents";
 import { ShareArticle } from "@/components/share-article";
+import { FunCursor } from "@/components/fun-cursor";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -35,6 +36,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <FunCursor />
       <BlogScrollTimeline />
       
       <div className="max-w-7xl mx-auto px-4 py-12 sm:py-20">

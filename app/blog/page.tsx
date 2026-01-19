@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, Heart, TrendingUp, BookOpen, Clock, Sparkles } from "lucide-react";
 import { getBlogPosts } from "@/lib/blog";
 import { getLikes } from "@/app/actions/likes";
+import { FunCursor } from "@/components/fun-cursor";
 
 export default async function BlogPage() {
   const posts = getBlogPosts();
@@ -24,8 +25,7 @@ export default async function BlogPage() {
     }))
     .filter((post) => post.slug !== featuredPost?.slug)
     .sort((a, b) => b.likes - a.likes)
-    .slice(0, 3)
-    .filter((post) => post.likes > 0);
+    .slice(0, 3);
 
   // Calculate stats
   const totalLikes = Object.values(likesMap).reduce((sum, likes) => sum + likes, 0);
@@ -36,6 +36,7 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/5">
+      <FunCursor />
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
