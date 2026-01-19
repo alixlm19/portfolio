@@ -79,17 +79,16 @@ export function About({ data }: AboutProps) {
                 key={skill.title}
                 variants={cardVariants}
                 whileHover={{
-                  scale: 1.05,
-                  rotate: 1,
-                  boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                  scale: 1.02,
+                  boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
                 }}
                 className="p-6 rounded-lg border bg-card transition-shadow cursor-pointer"
               >
                 <div className="flex items-start gap-4">
                   <motion.div
                     className="p-3 rounded-lg bg-primary/10"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
                   >
                     <Icon className="h-6 w-6 text-primary" />
                   </motion.div>

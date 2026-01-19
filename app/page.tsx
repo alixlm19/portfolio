@@ -7,10 +7,10 @@ import { Projects } from "@/components/projects";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import { FunCursor } from "@/components/fun-cursor";
-import { FloatingEmojis } from "@/components/floating-emojis";
 import { EasterEgg } from "@/components/easter-egg";
 import { ClickEffects } from "@/components/click-effects";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { AnimatedGradientOrbs } from "@/components/animated-gradient-orbs";
 import { getPersonalInfo, getProjects, getExperience, getEducation } from "@/lib/data";
 
 export default function Page() {
@@ -22,10 +22,10 @@ export default function Page() {
   return (
     <>
       <FunCursor />
-      <FloatingEmojis />
       <EasterEgg />
       <ClickEffects />
       <ScrollProgress />
+      <AnimatedGradientOrbs />
       <div className="min-h-screen relative">
         <Navbar />
         <main>
