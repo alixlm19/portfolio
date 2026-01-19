@@ -36,7 +36,7 @@ export function ScrollProgress() {
     <div className="fixed top-0 left-0 w-full h-1 bg-muted z-50">
       <div
         ref={progressRef}
-        className="h-full bg-gradient-to-r from-primary via-chart-2 to-chart-3 w-0"
+        className="h-full bg-gradient-to-r from-primary via-secondary to-primary w-0"
         style={{ transformOrigin: "left" }}
       />
     </div>

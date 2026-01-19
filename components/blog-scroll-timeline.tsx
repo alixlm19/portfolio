@@ -136,12 +136,12 @@ export function BlogScrollTimeline() {
       <div className="absolute inset-0 bg-border rounded-full" />
       <div
         ref={progressRef}
-        className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-primary/50 rounded-full"
+        className="absolute top-0 left-0 w-full bg-gradient-to-b from-secondary via-primary to-secondary rounded-full"
         style={{ height: "0%" }}
       />
       {/* Timeline dots */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rounded-full shadow-lg shadow-primary/50" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary/30 rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-secondary rounded-full shadow-lg shadow-secondary/50" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rounded-full shadow-lg shadow-primary/50" />
     </div>
   );
 }
