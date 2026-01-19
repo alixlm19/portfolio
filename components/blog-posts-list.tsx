@@ -5,30 +5,67 @@ import Link from "next/link";
 import { Heart, TrendingUp } from "lucide-react";
 import type { BlogPost } from "@/types/blog";
 
+interface Filter {
+  type: "tag" | "featured" | "popular" | "year" | "recent";
+  value: string;
+  label: string;
+}
+
 interface BlogPostsListProps {
   posts: BlogPost[];
   likesMap: Record<string, number>;
-  searchQuery?: string;
+  filters: Filter[];
+  searchQuery: string;
 }
 
-export function BlogPostsList({ posts, likesMap, searchQuery = "" }: BlogPostsListProps) {
+export function BlogPostsList({ posts, likesMap, filters, searchQuery }: BlogPostsListProps) {
 
   const featuredPost = posts[0];
   const otherPosts = posts.slice(1);
 
-  // Filter posts based on search query
+  // Apply all filters
   const filteredPosts = useMemo(() => {
-    if (!searchQuery.trim()) return otherPosts;
+    let result = otherPosts;
 
-    const query = searchQuery.toLowerCase();
-    return otherPosts.filter((post) => {
-      return (
-        post.title.toLowerCase().includes(query) ||
-        post.description.toLowerCase().includes(query) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(query))
-      );
+    // Apply search query first
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter((post) => {
+        return (
+          post.title.toLowerCase().includes(query) ||
+          post.description.toLowerCase().includes(query) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(query))
+        );
+      });
+    }
+
+    // Apply each filter
+    filters.forEach((filter) => {
+      if (filter.type === "tag" && filter.value) {
+        result = result.filter((post) =>
+          post.tags.some((tag) => tag.toLowerCase().includes(filter.value.toLowerCase()))
+        );
+      }
+      
+      if (filter.type === "year" && filter.value) {
+        result = result.filter((post) => {
+          const postYear = new Date(post.date).getFullYear().toString();
+          return postYear === filter.value;
+        });
+      }
+      
+      if (filter.type === "recent") {
+        const threeMonthsAgo = new Date();
+        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+        result = result.filter((post) => {
+          const postDate = new Date(post.date);
+          return postDate >= threeMonthsAgo;
+        });
+      }
     });
-  }, [otherPosts, searchQuery]);
+
+    return result;
+  }, [otherPosts, filters, searchQuery]);
 
   // Get popular posts (top 3 by likes, excluding featured)
   const popularPosts = posts
@@ -40,10 +77,18 @@ export function BlogPostsList({ posts, likesMap, searchQuery = "" }: BlogPostsLi
     .sort((a, b) => b.likes - a.likes)
     .slice(0, 3);
 
+  // Determine what to show based on filters
+  const hasFeaturedFilter = filters.some(f => f.type === "featured");
+  const hasPopularFilter = filters.some(f => f.type === "popular");
+  
+  const showFeatured = hasFeaturedFilter || (filters.length === 0 && !searchQuery);
+  const showPopular = hasPopularFilter || (filters.length === 0 && !searchQuery);
+  const showAllPosts = !hasFeaturedFilter && !hasPopularFilter;
+
   return (
     <>
       {/* Featured Post */}
-      {featuredPost && !searchQuery && (
+      {featuredPost && showFeatured && (
         <Link href={`/blog/${featuredPost.slug}`} className="group block mb-20">
           <article className="relative overflow-hidden rounded-xl border border-border p-8 bg-gradient-to-br from-primary/5 via-background to-secondary/5 hover:border-primary/50 transition-all">
             <div className="mb-3 flex items-center gap-2">
@@ -90,7 +135,7 @@ export function BlogPostsList({ posts, likesMap, searchQuery = "" }: BlogPostsLi
       )}
 
       {/* Popular Posts Section */}
-      {popularPosts.length > 0 && !searchQuery && (
+      {popularPosts.length > 0 && showPopular && (
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="h-5 w-5 text-secondary" />
@@ -127,17 +172,18 @@ export function BlogPostsList({ posts, likesMap, searchQuery = "" }: BlogPostsLi
       )}
 
       {/* Timeline List */}
-      <div className="space-y-6">
-        {!searchQuery && (
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-              All Articles
-            </span>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
-          </div>
-        )}
-        {filteredPosts.length > 0 ? (
+      {showAllPosts && (
+        <div className="space-y-6">
+          {filters.length === 0 && !searchQuery && (
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                All Articles
+              </span>
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+            </div>
+          )}
+          {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <Link
               key={post.slug}
@@ -184,11 +230,12 @@ export function BlogPostsList({ posts, likesMap, searchQuery = "" }: BlogPostsLi
         ) : (
           <div className="py-12 text-center">
             <p className="text-muted-foreground">
-              No articles found matching "{searchQuery}"
+              No articles found{(searchQuery || filters.length > 0) && " matching your criteria"}
             </p>
           </div>
         )}
-      </div>
+        </div>
+      )}
     </>
   );
 }
