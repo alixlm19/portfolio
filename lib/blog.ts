@@ -1,5 +1,13 @@
 import type { BlogPost } from "@/types/blog";
 
+// Calculate reading time based on word count (200 words per minute)
+function calculateReadTime(content: string): string {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
 export const blogPosts: BlogPost[] = [
   {
     slug: "introduction-to-mlops",
@@ -9,7 +17,6 @@ export const blogPosts: BlogPost[] = [
     date: "2024-01-15",
     tags: ["MLOps", "Machine Learning", "DevOps", "Python"],
     author: "Alix Leon",
-    readTime: "8 min read",
     content: `
 # Introduction to MLOps: Bridging ML and Production
 
@@ -46,7 +53,6 @@ Stay tuned for more deep dives into specific MLOps tools and practices!
     date: "2024-01-10",
     tags: ["FastAPI", "Python", "API", "Machine Learning"],
     author: "Alix Leon",
-    readTime: "10 min read",
     content: `
 # Building Scalable ML APIs with FastAPI
 
@@ -97,7 +103,6 @@ FastAPI makes it easy to create production-ready ML APIs with minimal code!
     date: "2024-01-05",
     tags: ["Deep Learning", "PyTorch", "Neural Networks", "Optimization"],
     author: "Alix Leon",
-    readTime: "12 min read",
     content: `
 # Deep Learning Optimization Techniques
 
@@ -145,9 +150,19 @@ Combining these techniques can dramatically improve your model's training effici
 ];
 
 export function getBlogPosts(): BlogPost[] {
-  return blogPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return blogPosts
+    .map((post) => ({
+      ...post,
+      readTime: calculateReadTime(post.content),
+    }))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getBlogPost(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug);
+  const post = blogPosts.find((post) => post.slug === slug);
+  if (!post) return undefined;
+  return {
+    ...post,
+    readTime: calculateReadTime(post.content),
+  };
 }

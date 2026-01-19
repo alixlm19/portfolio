@@ -6,5 +6,5 @@ export interface BlogPost {
   tags: string[];
   content: string;
   author: string;
-  readTime: string;
+  readTime?: string; // Computed from content
 }
